@@ -4,7 +4,6 @@ import com.example.cruddemo.entity.User;
 import com.example.cruddemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +40,12 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id){
         uRepo.deleteById(id);
+        return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/users")
+    public ResponseEntity<HttpStatus> deleteAllUser(){
+        uRepo.deleteAll();
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 }
