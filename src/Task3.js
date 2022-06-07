@@ -5,18 +5,14 @@ import "bootstrap/dist/css/bootstrap.css";
 
 const Task3 = () => {
   let navigate = useNavigate();
-
   const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    init();
-  }, []);
+  const [count, setCount] = useState(0);
 
   const init = () => {
     userService
       .getAll()
       .then((response) => {
-        console.log("Printing user data", response.data);
+        console.log("Printing user data ", response.data);
         setUsers(response.data);
       })
       .catch((error) => {
@@ -24,13 +20,34 @@ const Task3 = () => {
       });
   };
 
+  useEffect(() => {
+    init();
+  }, []);
+
   const handleDelete = (id) => {
-    userService.remove(id).then((response) => {
-      console.log("User deleted", response.data);
-      init();
-    });
+    console.log("Printing id", id);
+    userService
+      .remove(id)
+      .then((response) => {
+        console.log("user deleted successfully", response.data);
+        init();
+      })
+      .catch((error) => {
+        console.log("something went wrong", error);
+      });
   };
 
+  const deleteAll = () => {
+    userService
+      .removeAll()
+      .then((response) => {
+        console.log("all users deleted successfully", response.data);
+        init();
+      })
+      .catch((error) => {
+        console.log("something went wrong", error);
+      });
+  };
   return (
     <div className="container">
       <h1>CRUD Application</h1>
@@ -57,7 +74,7 @@ const Task3 = () => {
                   </Link>
                   <button
                     className="btn btn-danger ms-3"
-                    onClick={(e) => {
+                    onClick={() => {
                       handleDelete(user.id);
                     }}
                   >
@@ -84,6 +101,14 @@ const Task3 = () => {
         }}
       >
         Add
+      </button>
+      <button
+        className="btn btn-danger ms-3 mt-3"
+        onClick={() => {
+          deleteAll(users);
+        }}
+      >
+        delete all
       </button>
     </div>
   );

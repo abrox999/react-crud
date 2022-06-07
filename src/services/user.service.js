@@ -17,6 +17,10 @@ const update = (data) => {
 };
 
 const remove = (id) => {
-  httpClient.delete("/users/" + id);
+  return httpClient.delete("/users/" + id);
 };
-export default { getAll, create, get, update, remove };
+
+const removeAll = () => {
+  return httpClient.delete("/users");
+};
+export default { getAll, create, get, update, remove, removeAll };
